@@ -38,14 +38,25 @@ public class PostController extends BaseController {
 	}
 	
 	@RequestMapping(value = "",method = RequestMethod.POST)
-	public ResponseEntity<?>  addSample(@Valid @RequestBody Post post, BindingResult result){
+	public ResponseEntity<?>  addPost(@Valid @RequestBody Post post, BindingResult result){
 		if(result.hasErrors()) {
 			return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.FORBIDDEN);
 	    }
-		postService.addSample(post);
+		postService.addPost(post);
 		setMessage(POST_CREATED);
 		setStatusCode(STATUS_CODE_CREATED);
         return new ResponseEntity<BaseController>(this, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value = "",method = RequestMethod.PUT)
+	public ResponseEntity<?>  updatePost(@Valid @RequestBody Post post, BindingResult result){
+		if(result.hasErrors()) {
+			return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.FORBIDDEN);
+	    }
+		postService.updatePost(post);
+		setMessage(POST_UPDATED);
+		setStatusCode(STATUS_CODE_OK);
+        return new ResponseEntity<BaseController>(this, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "",method = RequestMethod.GET)
@@ -61,6 +72,14 @@ public class PostController extends BaseController {
 	public ResponseEntity<Post> getPosts(@PathVariable("id") String id){
 		
 		return new ResponseEntity<Post>(postService.getPost(id),HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+	public ResponseEntity<?> deletePost(@PathVariable("id") String id){
+		postService.deletePost(id);
+		setMessage(POST_DELETED);
+		setStatusCode(STATUS_CODE_OK);
+		 return new ResponseEntity<BaseController>(this, HttpStatus.OK);
 	}
 	
 

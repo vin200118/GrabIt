@@ -24,6 +24,7 @@ public class Post {
 	private String brand;
 	private String model;
 	private String image;
+	private String updatedDate;
 
 
 }

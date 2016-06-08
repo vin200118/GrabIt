@@ -12,4 +12,8 @@ public interface PostDao {
 
 	Post getPost(String id);
 
+	void deletePost(String id);
+
+	void updatePost(Post post);
+
 }

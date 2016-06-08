@@ -26,8 +26,8 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public int addPost(Post post) {
-		String SQL = "INSERT INTO \"post\" (id, user_id, title, category_id, subcategory_id, image_path, brand, model, type, price, item_condition, date_of_purchase, description, contact_name, contact_number, contact_email_id, created_date) "
-								+ " VALUES (:id, :userId, :title, :categoryId, :subcategoryId, :imagePath, :brand, :model, :type, :price,:condition, :dateOfPurchase, :description, :contactName, :contactNumber, :contactEmailId, :createdDate)";
+		String SQL = "INSERT INTO \"post\" (id, user_id, title, category_id, subcategory_id, image_path, brand, model, type, price, item_condition, date_of_purchase, description, contact_name, contact_number, contact_email_id, created_date, updated_date) "
+								+ " VALUES (:id, :userId, :title, :categoryId, :subcategoryId, :imagePath, :brand, :model, :type, :price,:condition, :dateOfPurchase, :description, :contactName, :contactNumber, :contactEmailId, :createdDate, :updatedDate)";
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("id", Utility.getUUID());
 		namedParameters.addValue("userId", post.getUserId());
@@ -46,6 +46,7 @@ public class PostDaoImpl implements PostDao {
 		namedParameters.addValue("contactNumber", post.getContactNumber());
 		namedParameters.addValue("contactEmailId", post.getContactEmail());
 		namedParameters.addValue("createdDate", new Timestamp(new Date().getTime()));
+		namedParameters.addValue("updatedDate", new Timestamp(new Date().getTime()));
 		return namedParameterJdbcTemplate.update(SQL, namedParameters);
 	}
 	
@@ -145,6 +146,39 @@ public class PostDaoImpl implements PostDao {
         });
 		return post;
 		
+	}
+
+	@Override
+	public void deletePost(String id) {
+		String SQL = "DELETE FROM \"post\" where id=:id"; 
+		 MapSqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
+	      namedParameterJdbcTemplate.update(SQL, namedParameters);  
+	}
+
+	@Override
+	public void updatePost(Post post) {
+		
+		String SQL = "UPDATE \"post\" SET title=:title, category_id=:categoryId, subcategory_id=:subcategoryId, image_path=:imagePath, brand=:brand, model=:model, type=:type, price=:price, item_condition=:condition,"
+				+ " date_of_purchase=:dateOfPurchase, description=:description, contact_name=:contactName, contact_number=:contactNumber, contact_email_id=:contactEmailId, updated_date=:updatedDate WHERE id=:id";  
+		  MapSqlParameterSource namedParameters = new MapSqlParameterSource();  
+			namedParameters.addValue("title", post.getTitle());
+			namedParameters.addValue("categoryId", post.getCategoryId());
+			namedParameters.addValue("subcategoryId", post.getSubCategoryId());	
+			namedParameters.addValue("imagePath", post.getImagePath());
+			namedParameters.addValue("brand", post.getBrand());
+			namedParameters.addValue("model", post.getModel());
+			namedParameters.addValue("type", post.getType());
+			namedParameters.addValue("price", post.getPrice());
+			namedParameters.addValue("condition", post.getCondition());
+			namedParameters.addValue("dateOfPurchase", Utility.getSqlTimeStampDate(post.getDateOfPurchase()));
+			namedParameters.addValue("description", post.getDescription());
+			namedParameters.addValue("contactName", post.getContactName());
+			namedParameters.addValue("contactNumber", post.getContactNumber());
+			namedParameters.addValue("contactEmailId", post.getContactEmail());
+			namedParameters.addValue("updatedDate", new Timestamp(new Date().getTime()));
+			namedParameters.addValue("id", post.getId());
+			
+	      namedParameterJdbcTemplate.update(SQL, namedParameters);  
 	}
 	
 	

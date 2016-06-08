@@ -1,7 +1,6 @@
 package com.grabIt.controller;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import lombok.Getter;
@@ -11,8 +10,10 @@ import lombok.Setter;
 @Setter
 public class BaseController {
 
-	public static final String LOGIN_SUCESS = "Your are logged in sucessfully.";
-	public static final String POST_CREATED = "Post created sucessfully.";
+	public static final String LOGIN_SUCESS = "Your are logged in successfully.";
+	public static final String POST_CREATED = "Post created successfully.";
+	public static final String POST_UPDATED = "Post updated successfully.";
+	public static final String POST_DELETED = "Post deleted successfully.";
 	public static final String LOGIN_FAIL = "Your username and password are incorrect.";
 	public static final String STATUS_CODE_OK =  "200";
 	public static final String STATUS_CODE_CREATED = "201";
@@ -22,6 +23,7 @@ public class BaseController {
 	private String statusCode;
 	private String message;
 	private Map<String, String> details = new HashMap<String, String>();
+	
 	
 	
 }
